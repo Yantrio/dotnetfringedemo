@@ -2,15 +2,16 @@ namespace FringeNancy
 {
     using Microsoft.AspNet.Builder;
     using Nancy.Owin;
-    using System;
  
     public class Startup
     {
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, Microsoft.Framework.Runtime.IApplicationEnvironment appEnv)
         {
         	app.UseStaticFiles();
-        	Console.WriteLine("test");
-            app.UseOwin(x => x.UseNancy());
+            
+            var opts = new NancyOptions();
+            opts.Bootstrapper = new Bootstrapper(appEnv);
+            app.UseOwin(x => x.UseNancy(opts));
         }
     }
 }
